@@ -1,0 +1,18 @@
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+
+# IDE files
+.vs/
+.idea/
+*.user
+
+# NuGet packages
+packages/
+
+# Environment files
+.env
+appsettings.Development.json
+
+# Local development files
+*.local
