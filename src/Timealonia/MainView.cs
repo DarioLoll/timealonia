@@ -14,12 +14,7 @@ public class MainView : ComponentBase
             .TabStripPlacement(Dock.Left)
             .Items(
                 new TabItem()
-                    .Header(new StackPanel()
-                        .Orientation(Orientation.Horizontal)
-                        .Children(
-                            new TextBlock().Text("Tasks"),
-                            new Ico("mdi-check")
-                        ))
+                    .Header(new TextBlock().Text("Track").WithIcon("mdi-play"))
                     .Content(new TextBlock().Text("dfdf")),
                 new TabItem()
                     .Header("Projects")
