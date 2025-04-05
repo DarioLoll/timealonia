@@ -4,10 +4,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Markup.Declarative;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.MaterialDesign;
 using Semi.Avalonia;
 using Timealonia;
 
 var services = new ServiceCollection();
+IconProvider.Current.Register<MaterialDesignIconProvider>();
 
 var lifetime = new ClassicDesktopStyleApplicationLifetime { Args = args, ShutdownMode = ShutdownMode.OnLastWindowClose };
 
@@ -25,7 +28,7 @@ lifetime.MainWindow = new Window()
     .Height(700)
     .Content(new MainView());
 
-#if DEBUG
+#if DEBUGq
 lifetime.MainWindow.AttachDevTools();
 #endif
 
