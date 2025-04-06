@@ -1,5 +1,6 @@
-using Avalonia.Markup.Declarative;
 using Projektanker.Icons.Avalonia;
+
+namespace Timealonia.Components;
 
 public class Ico : Icon 
 {

@@ -5,6 +5,7 @@ using Avalonia.Markup.Declarative;
 using Avalonia.Media;
 using HarfBuzzSharp;
 using Projektanker.Icons.Avalonia;
+using Timealonia.Components;
 
 namespace Timealonia;
 

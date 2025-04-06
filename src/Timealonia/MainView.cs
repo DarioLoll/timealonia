@@ -1,26 +1,30 @@
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Declarative;
-using Projektanker.Icons.Avalonia;
-using Projektanker.Icons.Avalonia.MaterialDesign;
+using Timealonia.Components;
+using Timealonia.Navigation;
 
 namespace Timealonia;
 
 public class MainView : ComponentBase
 {
+    [Inject] public INavigator Navigator { get; init; } = null!;
+    
+    protected override object Build() =>
+        new Grid()
+            .Styles(
+                new Style<TextBlock>()
+                    .VerticalAlignment(VerticalAlignment.Center)
+                )
+            .Rows("Auto, *")
+            .Children(
+                new Header().Row(0),
+                new ContentControl().Row(1).Content(Navigator.GetCurrentPage)
+                );
 
-    protected override object Build() => 
-        new TabControl()
-            .TabStripPlacement(Dock.Left)
-            .Items(
-                new TabItem()
-                    .Header(new TextBlock().Text("Track").WithIcon("mdi-play"))
-                    .Content(new TextBlock().Text("dfdf")),
-                new TabItem()
-                    .Header("Projects")
-                    .Content(new TextBlock().Text("Tasks View")),
-                new TabItem()
-                    .Header("Settings")
-                    .Content(new TextBlock().Text("Records View"))
-            );
+    protected override void OnCreated()
+    {
+        base.OnCreated();
+        Navigator.Navigated += (_, _) => StateHasChanged();
+    }
 }
