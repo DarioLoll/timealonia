@@ -8,13 +8,12 @@ using Projektanker.Icons.Avalonia;
 using Projektanker.Icons.Avalonia.MaterialDesign;
 using Semi.Avalonia;
 using Timealonia;
-using Timealonia.Extensions;
 using Timealonia.Navigation;
 using Timealonia.Pages;
+using Timealonia.Utilities;
 
 var services = new ServiceCollection();
-services.AddSingleton<DashboardPage>()
-    .AddSingleton<ProjectsPage>()
+services.AddSingleton<ProjectsPage>()
     .AddTransient<SettingsPage>()
     .AddTransient<Func<string, PageBase>>(serviceProvider => page => 
     {

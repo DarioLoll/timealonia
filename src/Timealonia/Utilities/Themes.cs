@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
 
-namespace Timealonia.Extensions;
+namespace Timealonia.Utilities;
 
 public static class Themes
 {

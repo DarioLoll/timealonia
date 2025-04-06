@@ -3,10 +3,10 @@ using Avalonia.Markup.Declarative;
 
 namespace Timealonia.Pages;
 
-public class DashboardPage : PageBase
+public class ProfilePage : PageBase
 {
     protected override object Build()
     {
-        return new TextBlock().Text("Dashboard Page");
+        return new TextBlock().Text("Profile Page");
     }
 }

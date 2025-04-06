@@ -1,9 +1,6 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Declarative;
-using Avalonia.Styling;
-using Timealonia.Extensions;
-using Timealonia.Pages;
+using Timealonia.Utilities;
 
 namespace Timealonia.Navigation;
 

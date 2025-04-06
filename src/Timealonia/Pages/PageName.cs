@@ -2,7 +2,7 @@ namespace Timealonia.Pages;
 
 public enum PageName
 {
-    Dashboard,
     Projects,
+    Profile,
     Settings
 }
