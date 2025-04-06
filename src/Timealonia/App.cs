@@ -15,11 +15,14 @@ using Timealonia.Pages;
 var services = new ServiceCollection();
 services.AddSingleton<DashboardPage>()
     .AddSingleton<ProjectsPage>()
-    .AddSingleton<Func<string, PageBase>>(serviceProvider => page => page switch
+    .AddTransient<SettingsPage>()
+    .AddTransient<Func<string, PageBase>>(serviceProvider => page => 
     {
-        "Dashboard" => serviceProvider.GetRequiredService<DashboardPage>(),
-        "Projects" => serviceProvider.GetRequiredService<ProjectsPage>(),
-        _ => throw new ArgumentException($"Page {page} not found")
+        var className = page + "Page";
+        var pageType = Type.GetType($"Timealonia.Pages.{className}");
+        if (pageType == null)
+            throw new ArgumentException($"Page type '{className}' not found.");
+        return (PageBase)serviceProvider.GetRequiredService(pageType);
     })
     .AddSingleton<INavigator>(sp => new Navigator(Enum.GetNames<PageName>(), sp.GetRequiredService<Func<string, PageBase>>()));
 IconProvider.Current.Register<MaterialDesignIconProvider>();
