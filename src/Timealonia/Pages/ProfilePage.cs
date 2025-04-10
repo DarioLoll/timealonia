@@ -5,7 +5,7 @@ namespace Timealonia.Pages;
 
 public class ProfilePage : PageBase
 {
-    protected override object Build()
+    protected override Control BuildPage()
     {
         return new TextBlock().Text("Profile Page");
     }

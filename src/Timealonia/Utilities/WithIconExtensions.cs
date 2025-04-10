@@ -1,13 +1,10 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Declarative;
-using Avalonia.Media;
-using HarfBuzzSharp;
 using Projektanker.Icons.Avalonia;
 using Timealonia.Components;
 
-namespace Timealonia;
+namespace Timealonia.Utilities;
 
 public enum IconPlacement
 {
@@ -19,26 +16,32 @@ public enum IconPlacement
 
 public static class WithIconExtensions
 {
-    public static StackPanel WithIcon<TControl>(this TControl control, string iconName, IconPlacement placement = IconPlacement.Left) 
-        where TControl : Control 
-        => control.WithIcon(new Ico(iconName), placement);
+    public static TControl Icon<TControl>(this TControl control, Func<string> iconName) 
+        where TControl : ContentControl 
+        => control.Content(() => new Ico(iconName()));
     
-    public static StackPanel WithIcon<TControl>(this TControl control, Icon icon, IconPlacement placement = IconPlacement.Left) 
-        where TControl : Control 
-        => control.NextTo(icon, placement);
+    public static TControl IconAndText<TControl>(this TControl control, Func<string> iconName, Func<string> text, 
+        IconPlacement placement = IconPlacement.Left) 
+        where TControl : ContentControl 
+        => control.IconAndText(iconName, new TextBlock().Text(text), placement);
+    
+    public static TControl IconAndText<TControl>(this TControl control, Func<string> iconName, TextBlock text, 
+        IconPlacement placement = IconPlacement.Left) 
+        where TControl : ContentControl 
+        => control.Content(() => text.Group(new Ico(iconName()), placement));
 
-    public static StackPanel NextTo<TControl, TControl2>(this TControl control, TControl2 control2,
-        IconPlacement placement = IconPlacement.Left)
+    public static StackPanel Group<TControl, TControl2>(this TControl control, TControl2 control2,
+        IconPlacement control2Placement = IconPlacement.Left)
         where TControl : Control
         where TControl2 : Control
     {
-        var stackPanel = placement switch
+        var stackPanel = control2Placement switch
         {
             IconPlacement.Left or IconPlacement.Top => control.PlaceBefore(control2),
             IconPlacement.Right or IconPlacement.Bottom => control.PlaceAfter(control2),
-            _ => throw new ArgumentOutOfRangeException(nameof(placement), placement, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(control2Placement), control2Placement, null)
         };
-        stackPanel.Orientation = placement is IconPlacement.Left or IconPlacement.Right
+        stackPanel.Orientation = control2Placement is IconPlacement.Left or IconPlacement.Right
             ? Orientation.Horizontal
             : Orientation.Vertical;
         stackPanel.Spacing(5);

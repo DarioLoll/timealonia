@@ -10,12 +10,13 @@ using Semi.Avalonia;
 using Timealonia;
 using Timealonia.Navigation;
 using Timealonia.Pages;
-using Timealonia.Utilities;
+using Timealonia.Styling;
 
 var services = new ServiceCollection();
 services.AddTransient<ProjectsPage>()
     .AddTransient<SettingsPage>()
     .AddTransient<ProfilePage>()
+    .AddSingleton<IStyleProvider, SemiStyleProvider>()
     .AddTransient<Func<string, PageBase>>(serviceProvider => page => 
     {
         var className = page + "Page";
@@ -34,7 +35,6 @@ AppBuilder.Configure<Application>()
     .AfterSetup(b =>
     {
         b.Instance?.Styles.Add(new SemiTheme() { Locale = CultureInfo.GetCultureInfo("en-US") });
-        Themes.Initialize();
     })
     .UseServiceProvider(services.BuildServiceProvider())
     // uncomment the line below to enable rider ht reload workaround
@@ -47,7 +47,7 @@ lifetime.MainWindow = new Window()
     .Height(700)
     .Content(new MainView());
 
-#if DEBUGq
+#if DEBUG
 lifetime.MainWindow.AttachDevTools();
 #endif
 

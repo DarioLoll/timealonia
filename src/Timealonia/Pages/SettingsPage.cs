@@ -5,7 +5,7 @@ namespace Timealonia.Pages;
 
 public class SettingsPage : PageBase
 {
-    protected override object Build()
+    protected override Control BuildPage()
     {
         return new TextBlock().Text("Settings Page");
     }

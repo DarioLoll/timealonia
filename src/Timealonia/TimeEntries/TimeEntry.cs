@@ -7,7 +7,7 @@ public record TimeEntry(TimeSpan Duration, string Description)
         return new ConcreteTimeEntry(start, duration, description);
     }
     
-    public static TimeEntry Empty => new TimeEntry(TimeSpan.Zero, string.Empty);
+    public static TimeEntry Empty => new(TimeSpan.Zero, string.Empty);
     
     public static TimeEntry Create(TimeSpan duration, string description = "")
     {
