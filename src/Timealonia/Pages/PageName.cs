@@ -4,5 +4,5 @@ public enum PageName
 {
     Projects,
     Profile,
-    Settings
+    Settings,
 }

@@ -1,3 +1,4 @@
+using Timealonia.Todos;
 using Timealonia.Utilities;
 
 namespace Timealonia.Projects;
@@ -16,14 +17,14 @@ public class ProjectBuilder
             .WithDescription(project.Description)
             .WithIcon(project.Icon)
             .WithColor(project.Color)
-            .WithTasks(project.Tasks);
+            .WithTodos(project.Todos);
     }
     
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public string Icon { get; private set; } = string.Empty;
     public string Color { get; private set; } = string.Empty;
-    public IEnumerable<TimealoniaTask> Tasks { get; private set; } = [];
+    public IEnumerable<Todo> Todos { get; private set; } = [];
     
     public ProjectBuilder WithName(string name)
     {
@@ -45,19 +46,26 @@ public class ProjectBuilder
         Color = color;
         return this;
     }
-    public ProjectBuilder WithTasks(IEnumerable<TimealoniaTask> tasks)
+    public ProjectBuilder WithTodos(IEnumerable<Todo> tasks)
     {
-        Tasks = tasks;
+        Todos = tasks;
         return this;
     }
-    public ProjectBuilder WithTask(TimealoniaTask task)
+    public ProjectBuilder WithTodo(Todo task)
     {
-        Tasks = Tasks.Append(task);
+        Todos = Todos.Append(task);
+        return this;
+    }
+    public ProjectBuilder WithTodo(string name, string description = "", int? number = null)
+    {
+        var num = number ?? Todos.Max(todo => todo.Number) + 1;
+        var todo = Todo.Create(num, name, description);
+        Todos = Todos.Append(todo);
         return this;
     }
     
     public Option<Project> Build()
     {
-        return Project.Create(Name, Description, Icon, Color, Tasks);
+        return Project.Create(Name, Description, Icon, Color, Todos);
     }
 }

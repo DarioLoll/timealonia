@@ -13,8 +13,9 @@ using Timealonia.Pages;
 using Timealonia.Utilities;
 
 var services = new ServiceCollection();
-services.AddSingleton<ProjectsPage>()
+services.AddTransient<ProjectsPage>()
     .AddTransient<SettingsPage>()
+    .AddTransient<ProfilePage>()
     .AddTransient<Func<string, PageBase>>(serviceProvider => page => 
     {
         var className = page + "Page";
