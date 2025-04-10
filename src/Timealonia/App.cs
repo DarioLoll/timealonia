@@ -10,10 +10,16 @@ using Semi.Avalonia;
 using Timealonia;
 using Timealonia.Navigation;
 using Timealonia.Pages;
+using Timealonia.Persistance;
+using Timealonia.Projects;
 using Timealonia.Styling;
 
+var lifetime = new ClassicDesktopStyleApplicationLifetime { Args = args, ShutdownMode = ShutdownMode.OnLastWindowClose };
+
 var services = new ServiceCollection();
-services.AddTransient<ProjectsPage>()
+services
+    .AddSingleton<IProjectRegistry, ProjectRegistry>()
+    .AddTransient<ProjectsPage>()
     .AddTransient<SettingsPage>()
     .AddTransient<ProfilePage>()
     .AddSingleton<IStyleProvider, SemiStyleProvider>()
@@ -25,22 +31,21 @@ services.AddTransient<ProjectsPage>()
             throw new ArgumentException($"Page type '{className}' not found.");
         return (PageBase)serviceProvider.GetRequiredService(pageType);
     })
-    .AddSingleton<INavigator>(sp => new Navigator(Enum.GetNames<PageName>(), sp.GetRequiredService<Func<string, PageBase>>()));
-IconProvider.Current.Register<MaterialDesignIconProvider>();
-
-var lifetime = new ClassicDesktopStyleApplicationLifetime { Args = args, ShutdownMode = ShutdownMode.OnLastWindowClose };
+    .AddSingleton<INavigator>(sp => new Navigator(Enum.GetNames<PageName>(), sp.GetRequiredService<Func<string, PageBase>>()))
+    .AddSingleton<AppDataStore>();
+var provider = services.BuildServiceProvider();
 
 AppBuilder.Configure<Application>()
     .UsePlatformDetect()
     .AfterSetup(b =>
     {
+        IconProvider.Current.Register<MaterialDesignIconProvider>();
         b.Instance?.Styles.Add(new SemiTheme() { Locale = CultureInfo.GetCultureInfo("en-US") });
     })
-    .UseServiceProvider(services.BuildServiceProvider())
+    .UseServiceProvider(provider)
     // uncomment the line below to enable rider ht reload workaround
     .UseRiderHotReload()
     .SetupWithLifetime(lifetime);
-
 lifetime.MainWindow = new Window()
     .Title("Timealonia")
     .Width(1200)
@@ -50,5 +55,14 @@ lifetime.MainWindow = new Window()
 #if DEBUG
 lifetime.MainWindow.AttachDevTools();
 #endif
+var dataStore = provider.GetRequiredService<AppDataStore>();
+lifetime.Startup += async (_, _) =>
+{
+    await dataStore.LoadAppDataAsync();
+};
+lifetime.ShutdownRequested += async (_, _) =>
+{
+    await dataStore.SaveAsync();
+};
 
 lifetime.Start(args);
