@@ -4,9 +4,9 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Markup.Declarative;
 using Avalonia.Styling;
-using Timealonia.Components;
-using Timealonia.Navigation;
-using Timealonia.Styling;
+using Timealonia.Shell.Components;
+using Timealonia.Shell.Navigation;
+using Timealonia.Shell.Styling;
 
 namespace Timealonia;
 

@@ -18,4 +18,8 @@
     <PackageReference Include="Semi.Avalonia" Version="11.2.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shell\" />
+  </ItemGroup>
+
 </Project>
